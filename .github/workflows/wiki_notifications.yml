@@ -7,6 +7,6 @@ jobs:
     steps:
       - name: Send Discord Webhook
         run: |
-          curl -H "Content-Type: application/json" \
-          -d "{\"content\": \"📖 **Wiki Updated!** \nPage: ${{ github.event.pages[0].page_name }}\nAction: ${{ github.event.pages[0].action }}\nLink: ${{ github.event.pages[0].html_url }}\"}" \
+          curl -X POST -H "Content-Type: application/json" \
+          -d "{\"content\": \"📖 **Wiki Updated!**\n**Page:** ${{ github.event.pages[0].page_name }}\n**Action:** ${{ github.event.pages[0].action }}\n**Link:** ${{ github.event.pages[0].html_url }}\"}" \
           "${{ secrets.DISCORD_WEBHOOK_URL }}"
