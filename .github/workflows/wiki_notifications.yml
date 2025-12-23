@@ -6,7 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Send Discord Webhook
+        env:
+          DISCORD_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           curl -X POST -H "Content-Type: application/json" \
           -d "{\"content\": \"📖 **Wiki Updated!**\n**Page:** ${{ github.event.pages[0].page_name }}\n**Action:** ${{ github.event.pages[0].action }}\n**Link:** ${{ github.event.pages[0].html_url }}\"}" \
-          "${{ secrets.DISCORD_WEBHOOK_URL }}"
+          "$DISCORD_URL"
