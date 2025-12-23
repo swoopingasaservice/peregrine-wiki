@@ -1,0 +1,12 @@
+name: Wiki Update Notification
+on: [gollum]
+
+jobs:
+  discord_notification:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord Webhook
+        run: |
+          curl -H "Content-Type: application/json" \
+          -d "{\"content\": \"📖 **Wiki Updated!** \nPage: ${{ github.event.pages[0].page_name }}\nAction: ${{ github.event.pages[0].action }}\nLink: ${{ github.event.pages[0].html_url }}\"}" \
+          "${{ secrets.https://discord.com/api/webhooks/1452995011737161800/wzqPDXMGbMm2UrrYOUajcD0RG3IfnwuRJ4x_iCu8DfdvznuvEOIIEvjgWRYP9ew5mdn2 }}"
