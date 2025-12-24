@@ -2,7 +2,7 @@ name: Docker to GHCR
 
 on:
   push:
-    branches: [ "main" ] # Runs every time you push to main
+    branches: [ "main" ]
 
 jobs:
   build-and-deploy:
@@ -20,20 +20,20 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }} # Automatically provided by GitHub
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push
         uses: docker/build-push-action@v5
         with:
           context: .
           push: true
-          # This tags the image with your username/repo-name
+          # This automatically tags it with your repo name
           tags: ghcr.io/${{ github.repository }}:latest
 
       - name: Notify Discord
-        if: success()
-        uses: appleboy/discord-action@master
+        if: always() # Fires on success or failure so you know what happened
+        uses: rjstone/discord-webhook-notify@v1
         with:
-          webhook_id: ${{ secrets.DISCORD_ID }}
-          webhook_token: ${{ secrets.DISCORD_TOKEN }}
-          message: "✅ **Docker Build Success!** \nImage: `ghcr.io/${{ github.repository }}:latest` \nStatus: Permanent storage confirmed."
+          severity: ${{ job.status == 'success' && 'info' || 'error' }}
+          details: "Build status: ${{ job.status }}! \nImage: ghcr.io/${{ github.repository }}:latest"
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
