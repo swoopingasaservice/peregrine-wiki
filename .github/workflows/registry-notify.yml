@@ -12,5 +12,5 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
-          details: "🚀 **New Docker Image Published!**\nAn image was successfully pushed to your GitHub Container Registry."
+          details: "🚀 **New Docker Image Published!**\nAn image was successfully pushed the Peregrine GitHub Container Registry."
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
